@@ -32,7 +32,7 @@ function ItemListContainer(props) {
 
       setLoading(false)
     })
-  }, [useParams()])
+  }, [categoryId])
 
   if (loading) {
     return (

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import ItemCount from './ItemCount'
 import { useNavigate } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
+import { CartContext } from '../contexts/cartContext'
 
 function BuyingConfirmation({ amount, title, close }) {
   const navigate = useNavigate(),
@@ -29,10 +30,14 @@ function BuyingConfirmation({ amount, title, close }) {
 }
 
 function ProductDetail({ title, price, image, description }) {
+  const { setCartItems } = useContext(CartContext)
   const [amount, setAmount] = useState(0)
   const onAdd = amount => {
-    console.log(amount)
     setAmount(amount)
+    setCartItems(prevState => [
+      ...prevState,
+      { title, price, image, description }
+    ])
   }
   const close = () => {
     setAmount(0)
