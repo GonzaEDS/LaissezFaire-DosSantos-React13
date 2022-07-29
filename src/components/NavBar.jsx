@@ -18,8 +18,8 @@ function NavBar() {
           title == 'Home' ? (route = '/') : (route = `/${title}`)
 
           return (
-            <Link to={route}>
-              <Li key={title} title={title} />
+            <Link to={route} key={title}>
+              <Li title={title} />
             </Link>
           )
         })}

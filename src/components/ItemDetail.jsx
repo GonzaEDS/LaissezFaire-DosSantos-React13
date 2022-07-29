@@ -29,15 +29,12 @@ function BuyingConfirmation({ amount, title, close }) {
   )
 }
 
-function ProductDetail({ title, price, image, description }) {
-  const { setCartItems } = useContext(CartContext)
+function ProductDetail({ title, price, image, description, id }) {
+  const { addProduct } = useContext(CartContext)
   const [amount, setAmount] = useState(0)
   const onAdd = amount => {
     setAmount(amount)
-    setCartItems(prevState => [
-      ...prevState,
-      { title, price, image, description }
-    ])
+    addProduct({ title, price, image, description }, amount)
   }
   const close = () => {
     setAmount(0)
@@ -76,6 +73,7 @@ function ItemDetail({ data }) {
   return (
     <>
       <ProductDetail
+        id={data.id}
         title={data.title}
         image={data.image}
         price={data.price}
