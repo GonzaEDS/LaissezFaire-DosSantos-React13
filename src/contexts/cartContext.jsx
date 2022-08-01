@@ -16,16 +16,27 @@ function CartProvider(props) {
   }
 
   function addProduct(item, quantity) {
-    let newCart
-    let product = cartItems.find(product => product.id === item.id)
-    if (product) {
-      product.quantity += quantity
-      newCart = [...cartItems]
-    } else {
-      product = { ...item, quantity: quantity }
-      newCart = { ...cartItems, product }
-    }
-    setCartItems(prevState => [...prevState, { newCart }])
+    console.log('quantiy', quantity)
+    console.log('item', item)
+    // let newCart;
+
+    setCartItems(cartItems => {
+      let productWasAlreadyInCart = false
+      const newCartItems = [...cartItems].map(product => {
+        if (product.id === item.id) {
+          productWasAlreadyInCart = true
+          return { ...product, quantity: (product.quantity += quantity) }
+        } else {
+          return product
+        }
+      })
+
+      if (!productWasAlreadyInCart) {
+        newCartItems.push({ ...item, quantity })
+      }
+
+      return newCartItems
+    })
   }
 
   return (

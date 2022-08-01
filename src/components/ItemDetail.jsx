@@ -29,16 +29,18 @@ function BuyingConfirmation({ amount, title, close }) {
   )
 }
 
-function ProductDetail({ title, price, image, description, id }) {
-  const { addProduct } = useContext(CartContext)
+function ProductDetail(product) {
+  const { title, price, image, description, id } = product
+  const { addProduct, cartItems } = useContext(CartContext)
   const [amount, setAmount] = useState(0)
   const onAdd = amount => {
     setAmount(amount)
-    addProduct({ title, price, image, description }, amount)
+    addProduct(product, amount)
   }
   const close = () => {
     setAmount(0)
   }
+  console.log('cartItems desde product detail', cartItems)
 
   return (
     <>
