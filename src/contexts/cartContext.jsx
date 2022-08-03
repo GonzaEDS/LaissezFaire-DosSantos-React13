@@ -16,8 +16,6 @@ function CartProvider(props) {
   }
 
   function addProduct(item, quantity) {
-    console.log('quantiy', quantity)
-    console.log('item', item)
     // let newCart;
 
     setCartItems(cartItems => {

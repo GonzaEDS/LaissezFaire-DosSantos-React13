@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import Header from './components/Header'
 import ItemDetailContainer from './components/ItemDetailContainer'
 import ItemListContainer from './components/ItemListContainer'
@@ -17,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ItemListContainer />} />
             <Route
-              path="/LaissezFaire-DosSantos-React10/"
+              path="/LaissezFaire-DosSantos-React11/"
               element={<ItemListContainer />}
             />
             <Route

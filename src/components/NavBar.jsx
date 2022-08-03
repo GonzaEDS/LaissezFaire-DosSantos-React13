@@ -2,11 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function Li(props) {
-  return (
-    <li>
-      <a href="#/">{props.title}</a>
-    </li>
-  )
+  return <li>{props.title}</li>
 }
 function NavBar() {
   const navItems = ['Home', 'Categories', 'Favorites', 'History', 'Deals']
@@ -15,7 +11,7 @@ function NavBar() {
       <ul className="lf-navUl">
         {navItems.map(title => {
           let route
-          title == 'Home' ? (route = '/') : (route = `/${title}`)
+          title === 'Home' ? (route = '/') : (route = `/${title}`)
 
           return (
             <Link to={route} key={title}>

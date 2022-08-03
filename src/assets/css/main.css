@@ -411,6 +411,10 @@ img {
   font-size: 1.2rem;
 }
 
+.nostock {
+  text-align: center;
+}
+
 @media screen and (min-width: 800px) {
   .detail-container {
     padding: 2rem 3rem;

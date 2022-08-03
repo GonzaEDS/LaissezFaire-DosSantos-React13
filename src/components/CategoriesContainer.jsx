@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import ItemDetail from './ItemDetail'
-import Loader from './Loader'
-import { useParams } from 'react-router-dom'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 function CategoryCard({ name, image }) {

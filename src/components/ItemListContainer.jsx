@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react'
 import ItemList from './ItemList'
 import Loader from './Loader'
 import { useParams } from 'react-router-dom'
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where
+} from 'firebase/firestore'
 
 function ItemListContainer(props) {
   const { categoryId } = useParams(),
@@ -17,21 +24,24 @@ function ItemListContainer(props) {
 
   useEffect(() => {
     setLoading(true)
-    let promiseItems = new Promise((resolve, reject) => {
-      resolve(
-        fetch('https://fakestoreapi.com/products').then(res => res.json())
-      )
-    })
 
-    promiseItems.then(respuesta => {
-      categoryId
-        ? setItems(
-            respuesta.filter(product => product.category == selectedCategory)
-          )
-        : setItems(respuesta)
+    const db = getFirestore()
+    const itemsCollection = collection(db, 'products')
+    let promiseItems
+    categoryId
+      ? (promiseItems = getDocs(
+          query(itemsCollection, where('category', '==', `${selectedCategory}`))
+        ))
+      : (promiseItems = getDocs(itemsCollection))
 
-      setLoading(false)
-    })
+    promiseItems
+      .then(snapshot => {
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      })
+      .then(res => {
+        setItems(res)
+        setLoading(false)
+      })
   }, [categoryId])
 
   if (loading) {

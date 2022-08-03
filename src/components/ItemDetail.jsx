@@ -29,9 +29,17 @@ function BuyingConfirmation({ amount, title, close }) {
   )
 }
 
+function NoStock() {
+  return (
+    <div className="detail-title nostock">
+      This product is currently out of stock
+    </div>
+  )
+}
+
 function ProductDetail(product) {
-  const { title, price, image, description, id } = product
-  const { addProduct, cartItems } = useContext(CartContext)
+  const { title, price, image, description, stock } = product
+  const { addProduct } = useContext(CartContext)
   const [amount, setAmount] = useState(0)
   const onAdd = amount => {
     setAmount(amount)
@@ -40,7 +48,6 @@ function ProductDetail(product) {
   const close = () => {
     setAmount(0)
   }
-  console.log('cartItems desde product detail', cartItems)
 
   return (
     <>
@@ -62,8 +69,16 @@ function ProductDetail(product) {
           <div className="detail-price">
             <p>{price}</p>
           </div>
-          {amount == 0 && (
-            <ItemCount initial={1} stock={10} unit={1} onAdd={onAdd} />
+
+          {stock > 0 ? (
+            amount === 0 && (
+              <>
+                <ItemCount initial={0} stock={stock} unit={1} onAdd={onAdd} />
+                <div>There are {stock} units available</div>
+              </>
+            )
+          ) : (
+            <NoStock />
           )}
         </div>
       </div>
@@ -80,6 +95,7 @@ function ItemDetail({ data }) {
         image={data.image}
         price={data.price}
         description={data.description}
+        stock={data.stock}
       />
     </>
   )

@@ -50,26 +50,26 @@ function CartPage() {
                   )
                 })}
               </tbody>
-              {cartItems.length > 1 ? (
-                <tr>
-                  <td colspan="3">Total</td>
-                  <td>
-                    $
-                    {cartItems.reduce((acc, curr) => {
-                      return acc + curr.price * curr.quantity
-                    }, 0)}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => clearCart()}
-                      className="empty-cart-btn"
-                    >
-                      <RiDeleteBin2Line />
-                    </button>
-                  </td>
-                </tr>
-              ) : (
-                ''
+              {cartItems.length > 1 && (
+                <tfoot>
+                  <tr>
+                    <td colSpan="3">Total</td>
+                    <td>
+                      $
+                      {cartItems.reduce((acc, curr) => {
+                        return acc + curr.price * curr.quantity
+                      }, 0)}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => clearCart()}
+                        className="empty-cart-btn"
+                      >
+                        <RiDeleteBin2Line />
+                      </button>
+                    </td>
+                  </tr>
+                </tfoot>
               )}
             </table>
             <div className="add-to-cart">
