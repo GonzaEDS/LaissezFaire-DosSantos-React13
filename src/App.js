@@ -16,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ItemListContainer />} />
             <Route
-              path="/LaissezFaire-DosSantos-React11/"
+              path="/LaissezFaire-DosSantos-React11_2"
               element={<ItemListContainer />}
             />
             <Route
