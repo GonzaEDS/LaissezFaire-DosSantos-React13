@@ -855,5 +855,19 @@ table {
     align-items: flex-start;
   }
 }
+label {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #171820;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
 
 /*# sourceMappingURL=main.css.map */

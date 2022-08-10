@@ -87,6 +87,7 @@ function CartPage() {
             </table>
             <div className="form">
               <form onSubmit={handleSubmit} action="">
+                <label htmlFor="name">Name:</label>
                 <input
                   type="text"
                   value={userForm.name}
@@ -96,6 +97,7 @@ function CartPage() {
                     setUserForm({ ...userForm, name: e.target.value })
                   }
                 />
+                <label htmlFor="email">Email:</label>
                 <input
                   type="email"
                   value={userForm.email}
@@ -105,6 +107,7 @@ function CartPage() {
                     setUserForm({ ...userForm, email: e.target.value })
                   }
                 />
+                <label htmlFor="phone">Phone:</label>
                 <input
                   type="tel"
                   value={userForm.phone}
@@ -120,7 +123,7 @@ function CartPage() {
             {userForm.name && userForm.email && userForm.phone && (
               <div className="add-to-cart">
                 <button onClick={() => sendOrder(userForm)}>
-                  <span className="button_top">Go to checkout</span>
+                  <span className="button_top">Finish order</span>
                 </button>
               </div>
             )}
@@ -128,14 +131,17 @@ function CartPage() {
         ) : (
           <>
             <div className="empty-msg">The cart is empty</div>
-            <div className="add-to-cart">
+
+            <Link to="/">
+              <button className="shopping-btn">Go to shopping</button>
+            </Link>
+
+            {/* testing (para ver en consola las órdenes que hay almacenadas en firestore) */}
+            <div>
               <button onClick={() => getOrders()}>
                 <span className="button_top">Get Orders</span>
               </button>
             </div>
-            <Link to="/">
-              <button className="shopping-btn">Go to shopping</button>
-            </Link>
           </>
         )}
       </div>
