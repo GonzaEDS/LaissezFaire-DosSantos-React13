@@ -138,8 +138,8 @@ function CartPage() {
 
             {/* testing (para ver en consola las órdenes que hay almacenadas en firestore) */}
             <div>
-              <button onClick={() => getOrders()}>
-                <span className="button_top">Get Orders</span>
+              <button className="logOrders" onClick={() => getOrders()}>
+                Get Orders (for testing)
               </button>
             </div>
           </>
