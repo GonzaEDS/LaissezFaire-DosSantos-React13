@@ -1,12 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { IoIosClose } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 
 function CartPage() {
-  const { cartItems, removeProduct, clearCart, sendOrder, handleSubmit } =
-    useContext(CartContext)
+  const [userForm, setUserForm] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  })
+
+  const {
+    cartItems,
+    removeProduct,
+    clearCart,
+    sendOrder,
+    getOrders,
+    handleSubmit
+  } = useContext(CartContext)
 
   return (
     <>
@@ -73,29 +85,59 @@ function CartPage() {
                 </tfoot>
               )}
             </table>
-            <div className="add-to-cart">
-              <button onClick={() => sendOrder()}>
-                <span className="button_top">Finish order</span>
-              </button>
+            <div className="form">
+              <form onSubmit={handleSubmit} action="">
+                <input
+                  type="text"
+                  value={userForm.name}
+                  name="name"
+                  id="name"
+                  onChange={e =>
+                    setUserForm({ ...userForm, name: e.target.value })
+                  }
+                />
+                <input
+                  type="email"
+                  value={userForm.email}
+                  name="email"
+                  id="email"
+                  onChange={e =>
+                    setUserForm({ ...userForm, email: e.target.value })
+                  }
+                />
+                <input
+                  type="tel"
+                  value={userForm.phone}
+                  name="phone"
+                  id="phone"
+                  onChange={e =>
+                    setUserForm({ ...userForm, phone: e.target.value })
+                  }
+                />
+                <button type="submit"></button>
+              </form>
             </div>
+            {userForm.name && userForm.email && userForm.phone && (
+              <div className="add-to-cart">
+                <button onClick={() => sendOrder(userForm)}>
+                  <span className="button_top">Go to checkout</span>
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <>
             <div className="empty-msg">The cart is empty</div>
+            <div className="add-to-cart">
+              <button onClick={() => getOrders()}>
+                <span className="button_top">Get Orders</span>
+              </button>
+            </div>
             <Link to="/">
               <button className="shopping-btn">Go to shopping</button>
             </Link>
           </>
         )}
-      </div>
-
-      <div className="form">
-        <form onSubmit={() => handleSubmit()} action="">
-          <input type="text" />
-          <input type="email" name="" id="" />
-          <input type="tel" name="" id="" />
-          <button type="submit"></button>
-        </form>
       </div>
     </>
   )

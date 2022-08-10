@@ -5,6 +5,7 @@ import {
   getFirestore,
   updateDoc,
   doc,
+  getDocs,
   writeBach
 } from 'firebase/firestore'
 
@@ -12,15 +13,39 @@ export const CartContext = createContext()
 
 function CartProvider(props) {
   const [cartItems, setCartItems] = useState([])
-  function sendOrder() {
+  function sendOrder(userForm) {
+    const { name, email, phone } = userForm
     const db = getFirestore()
+    const total = cartItems.reduce((acc, item) => {
+      return acc + item.price * item.quantity
+    }, 0)
+    const filteredCartItems = cartItems.map(
+      ({ id, title, image, price, quantity }) => {
+        return { id, title, price }
+      }
+    )
+    console.log('totalll', total)
     const order = {
-      items: cartItems
+      buyer: { name, email, phone },
+      items: filteredCartItems,
+      date: new Date(),
+      total
     }
+    console.log('order', order)
     const orderCollection = collection(db, 'orders')
     addDoc(orderCollection, order)
       .then(res => console.log(res.id))
       .catch(err => console.log('error', err))
+  }
+  function getOrders() {
+    const db = getFirestore()
+    const orderCollection = collection(db, 'orders')
+
+    getDocs(orderCollection).then(querySnapshot => {
+      querySnapshot.forEach(function (doc) {
+        console.log(doc.id, ' => ', doc.data())
+      })
+    })
   }
 
   function handleSubmit() {
@@ -70,6 +95,7 @@ function CartProvider(props) {
         removeProduct,
         addProduct,
         sendOrder,
+        getOrders,
         handleSubmit
       }}
     >
