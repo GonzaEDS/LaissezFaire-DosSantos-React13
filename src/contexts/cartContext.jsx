@@ -1,9 +1,32 @@
 import React, { createContext, useState } from 'react'
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  updateDoc,
+  doc,
+  writeBach
+} from 'firebase/firestore'
 
 export const CartContext = createContext()
 
 function CartProvider(props) {
   const [cartItems, setCartItems] = useState([])
+  function sendOrder() {
+    const db = getFirestore()
+    const order = {
+      items: cartItems
+    }
+    const orderCollection = collection(db, 'orders')
+    addDoc(orderCollection, order)
+      .then(res => console.log(res.id))
+      .catch(err => console.log('error', err))
+  }
+
+  function handleSubmit() {
+    console.log('submited')
+  }
+
   function clearCart() {
     setCartItems([])
   }
@@ -45,7 +68,9 @@ function CartProvider(props) {
         setCartItems,
         isInCart,
         removeProduct,
-        addProduct
+        addProduct,
+        sendOrder,
+        handleSubmit
       }}
     >
       {props.children}

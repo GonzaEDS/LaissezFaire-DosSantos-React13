@@ -5,7 +5,8 @@ import { IoIosClose } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 
 function CartPage() {
-  const { cartItems, removeProduct, clearCart } = useContext(CartContext)
+  const { cartItems, removeProduct, clearCart, sendOrder, handleSubmit } =
+    useContext(CartContext)
 
   return (
     <>
@@ -73,7 +74,7 @@ function CartPage() {
               )}
             </table>
             <div className="add-to-cart">
-              <button>
+              <button onClick={() => sendOrder()}>
                 <span className="button_top">Finish order</span>
               </button>
             </div>
@@ -86,6 +87,15 @@ function CartPage() {
             </Link>
           </>
         )}
+      </div>
+
+      <div className="form">
+        <form onSubmit={() => handleSubmit()} action="">
+          <input type="text" />
+          <input type="email" name="" id="" />
+          <input type="tel" name="" id="" />
+          <button type="submit"></button>
+        </form>
       </div>
     </>
   )
