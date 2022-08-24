@@ -8,7 +8,9 @@ Se implemento un manejo de rutas con BrowserRouter y se añadó el filtrado por 
 
 ## Navegación
 
-![flujo de app](https://github.com/GonzaEDS/LaissezFaire-DosSantos-React13/tree/master/src/assets/navigation-example-gif.gif)
+![flujo de app](https://github.com/GonzaEDS/LaissezFaire-DosSantos-React13/blob/master/src/assets/navigation-example-gif.gif)
+
+
 
 
 
