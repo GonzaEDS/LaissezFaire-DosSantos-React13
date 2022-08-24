@@ -6,3 +6,9 @@ Header y navbar para mostrar la navegación. ItemListContainer para mostrar el c
 
 Se implemento un manejo de rutas con BrowserRouter y se añadó el filtrado por categorías utilizando los parámetros de la navegacion. 
 
+## Navegación
+
+![flujo de app](https://github.com/GonzaEDS/LaissezFaire-DosSantos-React13/tree/master/src/assets/navigation-example-gif.gif)
+
+
+
