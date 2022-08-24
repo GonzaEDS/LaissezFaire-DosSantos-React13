@@ -852,6 +852,9 @@ table {
   border: 1px solid black;
   padding: 0.3rem;
   border-radius: 5px;
+  position: absolute;
+  bottom: 1rem;
+  left: 45%;
 }
 
 @media screen and (max-width: 500px) {
@@ -871,10 +874,54 @@ label {
 
 form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.form {
+  background: #9091a9;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1.5rem;
+  color: #171820;
+  align-items: center;
+}
+
+input {
+  padding: 5px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  width: min-content;
+  width: inherit;
+}
+
+.inputRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.your-order {
+  color: #36374b;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.8rem;
+  gap: 1rem;
+}
+
+.processed {
+  font-weight: 700;
+  font-size: 2rem;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -4,6 +4,19 @@ import { CartContext } from '../contexts/cartContext'
 import { IoIosClose } from 'react-icons/io'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 
+function YourOrder() {
+  const { lastOrderId } = useContext(CartContext)
+  return (
+    <>
+      <div className="your-order">
+        <p className="processed">Your order has been processed</p>
+        <p className="willBe">It will be dispatched within 24 hours</p>
+        <p className="yourId">Your purchase ID is: {lastOrderId}</p>
+      </div>
+    </>
+  )
+}
+
 function CartPage() {
   const [userForm, setUserForm] = useState({
     name: '',
@@ -11,20 +24,26 @@ function CartPage() {
     phone: ''
   })
 
+  const [orderFinished, setFinishedOrder] = useState(false)
+
   const {
     cartItems,
     removeProduct,
     clearCart,
     sendOrder,
     getOrders,
-    handleSubmit
+    handleSubmit,
+    updateStock,
+    lastOrderId
   } = useContext(CartContext)
 
   return (
     <>
       <div className="greeting">Cart</div>
       <div className="cart-container">
-        {cartItems.length > 0 ? (
+        {orderFinished ? (
+          <YourOrder />
+        ) : cartItems.length > 0 ? (
           <div className="table-container">
             <table>
               <thead>
@@ -86,47 +105,61 @@ function CartPage() {
               )}
             </table>
             <div className="form">
+              <h2>Complete the form to submit your order</h2>
               <form onSubmit={handleSubmit} action="">
-                <label htmlFor="name">Name:</label>
-                <input
-                  type="text"
-                  value={userForm.name}
-                  name="name"
-                  id="name"
-                  onChange={e =>
-                    setUserForm({ ...userForm, name: e.target.value })
-                  }
-                />
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  value={userForm.email}
-                  name="email"
-                  id="email"
-                  onChange={e =>
-                    setUserForm({ ...userForm, email: e.target.value })
-                  }
-                />
-                <label htmlFor="phone">Phone:</label>
-                <input
-                  type="tel"
-                  value={userForm.phone}
-                  name="phone"
-                  id="phone"
-                  onChange={e =>
-                    setUserForm({ ...userForm, phone: e.target.value })
-                  }
-                />
-                <button type="submit"></button>
+                <div className="inputRow">
+                  <label htmlFor="name">Name:</label>
+                  <input
+                    type="text"
+                    value={userForm.name}
+                    name="name"
+                    id="name"
+                    onChange={e =>
+                      setUserForm({ ...userForm, name: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="inputRow">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    value={userForm.email}
+                    name="email"
+                    id="email"
+                    onChange={e =>
+                      setUserForm({ ...userForm, email: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="inputRow">
+                  <label htmlFor="phone">Phone:</label>
+                  <input
+                    type="tel"
+                    value={userForm.phone}
+                    name="phone"
+                    id="phone"
+                    onChange={e =>
+                      setUserForm({ ...userForm, phone: e.target.value })
+                    }
+                  />
+                </div>
               </form>
+              {userForm.name && userForm.email && userForm.phone && (
+                <div className="add-to-cart">
+                  <button
+                    onClick={() => {
+                      sendOrder(userForm)
+                      updateStock(cartItems)
+                      clearCart()
+                      setFinishedOrder(true)
+                    }}
+                  >
+                    <span className="button_top">Finish order</span>
+                  </button>
+                </div>
+              )}
             </div>
-            {userForm.name && userForm.email && userForm.phone && (
-              <div className="add-to-cart">
-                <button onClick={() => sendOrder(userForm)}>
-                  <span className="button_top">Finish order</span>
-                </button>
-              </div>
-            )}
           </div>
         ) : (
           <>
@@ -139,7 +172,7 @@ function CartPage() {
             {/* testing (para ver en consola las órdenes que hay almacenadas en firestore) */}
             <div>
               <button className="logOrders" onClick={() => getOrders()}>
-                Get Orders (for testing)
+                Log orders in console (for testing)
               </button>
             </div>
           </>

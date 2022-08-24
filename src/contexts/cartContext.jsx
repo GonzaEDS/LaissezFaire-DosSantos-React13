@@ -6,13 +6,14 @@ import {
   updateDoc,
   doc,
   getDocs,
-  writeBach
+  getDoc
 } from 'firebase/firestore'
 
 export const CartContext = createContext()
 
 function CartProvider(props) {
   const [cartItems, setCartItems] = useState([])
+  const [lastOrderId, setLastOrderId] = useState('')
   function sendOrder(userForm) {
     const { name, email, phone } = userForm
     const db = getFirestore()
@@ -24,17 +25,17 @@ function CartProvider(props) {
         return { id, title, price }
       }
     )
-    console.log('totalll', total)
     const order = {
       buyer: { name, email, phone },
       items: filteredCartItems,
       date: new Date(),
       total
     }
-    console.log('order', order)
     const orderCollection = collection(db, 'orders')
     addDoc(orderCollection, order)
-      .then(res => console.log(res.id))
+      .then(res => {
+        setLastOrderId(res.id)
+      })
       .catch(err => console.log('error', err))
   }
   function getOrders() {
@@ -46,10 +47,6 @@ function CartProvider(props) {
         console.log(doc.id, ' => ', doc.data())
       })
     })
-  }
-
-  function handleSubmit() {
-    console.log('submited')
   }
 
   function clearCart() {
@@ -65,23 +62,35 @@ function CartProvider(props) {
 
   function addProduct(item, quantity) {
     // let newCart;
+    if (quantity > 0) {
+      setCartItems(cartItems => {
+        let productWasAlreadyInCart = false
+        const newCartItems = [...cartItems].map(product => {
+          if (product.id === item.id) {
+            productWasAlreadyInCart = true
+            return { ...product, quantity: (product.quantity += quantity) }
+          } else {
+            return product
+          }
+        })
 
-    setCartItems(cartItems => {
-      let productWasAlreadyInCart = false
-      const newCartItems = [...cartItems].map(product => {
-        if (product.id === item.id) {
-          productWasAlreadyInCart = true
-          return { ...product, quantity: (product.quantity += quantity) }
-        } else {
-          return product
+        if (!productWasAlreadyInCart) {
+          newCartItems.push({ ...item, quantity })
         }
+
+        return newCartItems
       })
+    }
+  }
 
-      if (!productWasAlreadyInCart) {
-        newCartItems.push({ ...item, quantity })
-      }
-
-      return newCartItems
+  async function updateStock(cartItems) {
+    const db = getFirestore()
+    cartItems.forEach(async item => {
+      const orderDoc = doc(collection(db, 'products'), `${item.id}`)
+      const dbItem = await getDoc(orderDoc)
+      const dbBody = dbItem.data()
+      const newStock = dbBody.stock - item.quantity
+      updateDoc(orderDoc, { stock: newStock })
     })
   }
 
@@ -96,7 +105,8 @@ function CartProvider(props) {
         addProduct,
         sendOrder,
         getOrders,
-        handleSubmit
+        updateStock,
+        lastOrderId
       }}
     >
       {props.children}
