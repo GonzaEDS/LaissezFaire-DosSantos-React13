@@ -11,7 +11,7 @@ function YourOrder() {
       <div className="your-order">
         <p className="processed">Your order has been processed</p>
         <p className="willBe">It will be dispatched within 24 hours</p>
-        <p className="yourId">Your purchase ID is: {lastOrderId}</p>
+        <p className="yourId">Your order ID is: {lastOrderId}</p>
       </div>
     </>
   )
